@@ -43,7 +43,7 @@ MainWindow::MainWindow(QWidget *parent)
        }
 
        le = new QLineEdit("", this);
-
+       le->setAlignment(Qt::AlignRight);
 
 }
 
