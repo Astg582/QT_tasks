@@ -28,6 +28,9 @@ MainWindow::MainWindow(QWidget *parent)
     out->setParent(this);
     player->setMedia(QUrl("file:///home/astghik/Music/10sec.mp3"));
     player->play();
+    QString path = "file:///home/astghik/Music/10sec.mp3";
+    QStringList l = path.split("/");
+    name->setText(l[l.length()-1]);
 
     connect(play, &QPushButton::clicked, this, &MainWindow::play_pause);
     connect(stop, &QPushButton::clicked, this, &MainWindow::play_pause);
@@ -47,11 +50,12 @@ void MainWindow::handleVolume() {
 }
 
 void MainWindow::openFile() {
-    QString path = QFileDialog::getOpenFileName();
+    QString path = QFileDialog::getOpenFileName(this, tr("Open Audio File"), QDir::homePath(), tr("Audio Files (*.mp3 *.wav *.ogg)"));
+
     if (path == "") {
         return;
     }
-    player->setMedia(QUrl(path));
+    player->setMedia(QUrl::fromLocalFile(path));
     QStringList l = path.split("/");
     name->setText(l[l.length()-1]);
 }
@@ -107,7 +111,7 @@ void MainWindow::resizeEvent(QResizeEvent* e) {
 
     int pause_h = percent(h, 10);
     stop->setGeometry(percent(w, 20), percent(h, 45), percent(w, 10), pause_h);
-    stop->setStyleSheet("background: moss");
+    stop->setStyleSheet("color: white; background-color: black; font: bold;");
 
     int name_h = percent(h, 10);
     name->setGeometry(percent(w, 35), percent(h, 45), percent(w, 35), name_h);
