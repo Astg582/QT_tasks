@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
     //, ui(new Ui::MainWindow)
 {
     //ui->setupUi(this);
-    this->resize(900, 300);
+    this->resize(900, 600);
     play = new QPushButton("Play", this);
     stop = new QPushButton("Stop", this);
     open = new QPushButton("Open", this);
@@ -25,10 +25,11 @@ MainWindow::MainWindow(QWidget *parent)
     dur = new QSlider(Qt::Horizontal, this);
     player = new QMediaPlayer(this);
     out = new QAudioOutput();
+    playlist = new Playlist(this);
     out->setParent(this);
-    player->setMedia(QUrl("file:///home/astghik/Music/10sec.mp3"));
+    player->setMedia(QUrl("file:////home/astghik/Music/01.RedCity.mp3"));
     player->play();
-    QString path = "file:///home/astghik/Music/10sec.mp3";
+    QString path = "file:///home/astghik/Music/01.RedCity.mp3";
     QStringList l = path.split("/");
     name->setText(l[l.length()-1]);
 
@@ -50,14 +51,18 @@ void MainWindow::handleVolume() {
 }
 
 void MainWindow::openFile() {
-    QString path = QFileDialog::getOpenFileName(this, tr("Open Audio File"), QDir::homePath(), tr("Audio Files (*.mp3 *.wav *.ogg)"));
+    QStringList songs=QFileDialog::getOpenFileNames(this, tr("Open Audio File"), QDir::homePath(), tr("Audio Files (*.mp3 *.wav *.ogg)"));
 
-    if (path == "") {
-        return;
-    }
-    player->setMedia(QUrl::fromLocalFile(path));
-    QStringList l = path.split("/");
-    name->setText(l[l.length()-1]);
+    playlist->append_songs(songs);
+
+  //    QString songs = QFileDialog::getOpenFileName(this, tr("Open Audio File"), QDir::homePath(), tr("Audio Files (*.mp3 *.wav *.ogg)"));
+
+  //  if (songs == "") {
+     //   return;
+   // }
+    //player->setMedia(QUrl::fromLocalFile(songs));
+    //QStringList l = songs.split("/");
+    //name->setText(l[l.length()-1]);
 }
 
 
@@ -105,33 +110,37 @@ void MainWindow::resizeEvent(QResizeEvent* e) {
     int h = this->height();
     int w = this->width();
 
-    int start_h = percent(h, 10);
-    play->setGeometry(percent(w, 5), percent(h, 45), percent(w, 10), start_h);
+    int start_h = percent(h, 5);
+    play->setGeometry(percent(w, 5), percent(h, 15), percent(w, 10), start_h);
     play->setStyleSheet("background: magenta");
 
-    int pause_h = percent(h, 10);
-    stop->setGeometry(percent(w, 20), percent(h, 45), percent(w, 10), pause_h);
+    int pause_h = percent(h, 5);
+    stop->setGeometry(percent(w, 20), percent(h, 15), percent(w, 10), pause_h);
     stop->setStyleSheet("color: white; background-color: black; font: bold;");
 
-    int name_h = percent(h, 10);
-    name->setGeometry(percent(w, 35), percent(h, 45), percent(w, 35), name_h);
+    int name_h = percent(h, 5);
+    name->setGeometry(percent(w, 35), percent(h, 15), percent(w, 35), name_h);
     name->setStyleSheet("background: magenta");
 
-    int open_h = percent(h, 10);
-    open->setGeometry(percent(w, 75), percent(h, 45), percent(w, 20), open_h);
+    int open_h = percent(h, 5);
+    open->setGeometry(percent(w, 75), percent(h, 15), percent(w, 20), open_h);
     open->setStyleSheet("background: magenta");
 
-    int volume_h = percent(h, 10);
-    volume->setGeometry(percent(w, 80), percent(h, 60), percent(w, 10), volume_h);
+    int volume_h = percent(h, 5);
+    volume->setGeometry(percent(w, 80), percent(h, 20), percent(w, 10), volume_h);
     volume->setStyleSheet("color: darkCyan");
 
-    int duration_h = percent(h, 10);
-    dur->setGeometry(percent(w, 5), percent(h, 75), percent(w, 80), duration_h);
+    int duration_h = percent(h, 5);
+    dur->setGeometry(percent(w, 5), percent(h, 25), percent(w, 80), duration_h);
     dur->setStyleSheet("color: darkCyan");
 
-    int sliderDur_h = percent(h, 10);
-    time->setGeometry(percent(w, 90), percent(h, 75), percent(w, 8), sliderDur_h);
+    int sliderDur_h = percent(h, 5);
+    time->setGeometry(percent(w, 90), percent(h, 25), percent(w, 8), sliderDur_h);
     time->setStyleSheet("background: pink");
+
+    int list_h = percent(h, 25);
+    playlist->setGeometry(percent(w, 5), percent(h, 65), percent(w, 90), list_h);
+    playlist->setStyleSheet("background: purple");
 }
 
 void MainWindow::play_pause() {

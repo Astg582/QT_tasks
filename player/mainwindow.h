@@ -8,6 +8,7 @@
 #include <QMediaPlayer>
 #include <QAudioOutput>
 #include <QFileDialog>
+#include "playlist.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -50,6 +51,7 @@ private:
     QAudioOutput* out;
     bool play_flag = false;
     qint64 milis;
+    Playlist* playlist;
     bool lock = false;
 
 
