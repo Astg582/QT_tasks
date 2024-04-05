@@ -44,7 +44,6 @@ public slots:
 private:
     Ui::MainWindow *ui;
     QPushButton* play;
-    QPushButton* stop;
     QPushButton* open;
     QPushButton* next;
     QPushButton* prev;

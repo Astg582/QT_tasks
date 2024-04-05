@@ -11,7 +11,9 @@ Playlist::Playlist(QWidget *parent)
     ind = 0;
 }
 
-
+int Playlist::percent(int val, double p) {
+    return (p * val) / 100;
+}
 void Playlist::click(qint64 i){
   /*  if(i < 0 ){
         return;
@@ -55,7 +57,7 @@ void Playlist::append_songs(QStringList& songs){
         }
         set.insert(song);
         QStringList num = song.split("/");
-        QPushButton *btn = new QPushButton(num[num.length() -1]);
+        btn = new QPushButton(num[num.length() -1]);
         lay->addWidget(btn);
         plist << song;
         qint64 i = this->ind;
