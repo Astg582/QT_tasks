@@ -37,12 +37,17 @@ public slots:
     void pauseSong();
     void handleVolume();
     void openFile();
+    void hendle_next();
+    void hendle_prev();
+    void handSongR();
 
 private:
     Ui::MainWindow *ui;
     QPushButton* play;
     QPushButton* stop;
     QPushButton* open;
+    QPushButton* next;
+    QPushButton* prev;
     QLabel* name;
     QLabel* time;
     QSlider* volume;
